@@ -4,6 +4,7 @@ import './App.css'
 import Home from './Screen/Home'
 import { Routes, BrowserRouter as Router, Route } from "react-router-dom"
 import Login from './Screen/Login'
+import SignUp from './Screen/SignUp'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/login' element={<Login/>}/>
+            <Route path='/signup' element={<SignUp/>}/>
           </Routes>
         </div>
       </Router>
