@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* background-color: #242424; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -16,9 +16,15 @@ font-family: "NHaasGroteskDSPro-65Md" !important;
 
 body{
   font-family: "NHaasGroteskDSPro-65Md" !important;
-  background: #242424;
+  /* background: #242424; */
 }
 
 #carousel{
   max-height: 500px;
 } 
+.card-img-top.item{
+  height: 200px;
+  object-fit: cover;
+  object-position: center center;
+  width: 100%;
+}

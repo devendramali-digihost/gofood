@@ -4,22 +4,20 @@ const mongoURL = "mongodb+srv://gofood:asdfsafsdfsds@cluster0.boovfj1.mongodb.ne
 
 const mongoDB = async () => {
     try {
-        // Connect to MongoDB
-        await mongoose.connect(mongoURL);
+        await mongoose.connect(mongoURL, { useNewUrlParser: true });
+        console.log("Connected");
 
-        console.log("Connected successfully to MongoDB");
+        const db = mongoose.connection.db;
 
-        // Access the collection directly using the native MongoDB driver
-        const foodCollection = mongoose.connection.db.collection("food_items");
+        const foodItemsData = await db.collection("food_items").find({}).toArray();
+        const foodCategoryData = await db.collection("food_catagory").find({}).toArray();
 
-        // Fetch all documents from the collection
-        const data = await foodCollection.find({}).toArray();
-
-        // console.log("Fetched food items:", data);
+        global.food_items = foodItemsData;
+        global.foodCategory = foodCategoryData;
         
     } catch (err) {
         console.error("Failed to connect to MongoDB or fetch data:", err);
-        process.exit(1); // Optional: exit on failure
+        process.exit(1); 
     }
 };
 
