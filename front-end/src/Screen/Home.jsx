@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../component/Navbar";
-import Footer from "../component/Footer";
+import Navbar from "./../component/Navbar"
+import Footer from "./../component/Footer"
 import Card from "../component/Card";
 
 const Home = () => {
@@ -26,7 +26,8 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar />
+       <Navbar/>
+   
       <div>
         <div id="carouselExample" className="carousel slide carousel-fade">
           <div className="carousel-inner" id="carousel">
@@ -108,8 +109,9 @@ const Home = () => {
           <div>Loading categories...</div>
         )}
       </div>
+         <Footer/>
 
-      <Footer />
+ 
     </div>
   );
 };

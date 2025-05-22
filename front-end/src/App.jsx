@@ -6,6 +6,14 @@ import { Routes, BrowserRouter as Router, Route } from "react-router-dom"
 import Login from './Screen/Login'
 import SignUp from './Screen/SignUp'
 import { CartProvider } from './component/Contextreducer'
+import Myorder from './Screen/Myorder'
+
+import Dashboard from './admin/Dashboard'
+import Masterlogin from './admin/Masterlogin'
+import Foodlist from './admin/Masterpages/Foodlist'
+import Foodcatagory from './admin/Masterpages/Foodcatagory'
+import Addfood from './admin/Masterpages/Addfood'
+import Updatefood from './admin/Masterpages/Updatefood'
 
 function App() {
 
@@ -14,11 +22,21 @@ function App() {
       <CartProvider>
             <Router>
             <div>
+           
               <Routes>
                 <Route path='/' element={<Home/>}/>
                 <Route path='/login' element={<Login/>}/>
                 <Route path='/signup' element={<SignUp/>}/>
+                <Route path='/myorders' element={<Myorder/>}/>
+                <Route path='/master' element={<Masterlogin/>}/>
+                <Route path='/dashboard' element={<Dashboard/>}/>
+                <Route path='/foodlist' element={<Foodlist/>}/>
+                <Route path='/foodcatagory' element={<Foodcatagory/>}/>
+                <Route path='/addfood' element={<Addfood/>}/>
+                <Route path='/updatefood' element={<Updatefood/>}/>
               </Routes>
+      
+               
             </div>
           </Router> 
       </CartProvider>

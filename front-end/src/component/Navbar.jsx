@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Link, useNavigate} from "react-router-dom"
+import Modal from '../Modal'
+import Cart from '../Screen/Cart'
+import { usecart, usedispatchcart } from "./Contextreducer";
 
 const Navbar = () => {
-
+  const data = usecart();
   const navigate = useNavigate()
+  const [cartview, setcartview] = useState(false)
 
   const handlelogout =(e)=>{
     localStorage.removeItem("authToken");
@@ -24,7 +28,7 @@ const Navbar = () => {
         {
           (localStorage.getItem("authToken"))?
             <li className="nav-item">
-          <Link className="nav-link  fs-5" aria-current="page" to="/">My Orders</Link>
+          <Link className="nav-link  fs-5" aria-current="page" to="/myorders">My Orders</Link>
         </li>:
         ""
         }
@@ -39,10 +43,14 @@ const Navbar = () => {
       </div>
       :
       <div className="">
-        <div className='btn bg-white text-success mx-2'>
+        <div className='btn bg-white text-success mx-2' onClick={()=>{setcartview(true)}}>
           My Cart
-          <span className='text-white bg-danger p-1 ms-1 ' style={{borderRadius:"50%", height:"25px", width:"25px", display:'inline-flex', alignItems:"center", justifyContent:"center"}}>2</span>
+          <span className='text-white bg-danger p-1 ms-1 ' style={{borderRadius:"50%", height:"25px", width:"25px", display:'inline-flex', alignItems:"center", justifyContent:"center"}}>{data.length}</span>
         </div> 
+        {cartview ? 
+        (<Modal onClose={()=>{setcartview(false)}}>
+          <Cart/>
+          </Modal>) : null}
         <div className='btn bg-white text-danger mx-2' onClick={handlelogout}>
           Logout
         </div>
