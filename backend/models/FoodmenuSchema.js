@@ -10,4 +10,4 @@ const FoodcatagorySchema = new Schema({
 })
 
 
-module.exports = mongoose.model("Foodcatagory",FoodcatagorySchema)
+module.exports = mongoose.model("food_catagory",FoodcatagorySchema, "food_catagory")
