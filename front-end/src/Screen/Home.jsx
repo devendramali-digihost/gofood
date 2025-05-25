@@ -2,24 +2,37 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./../component/Navbar"
 import Footer from "./../component/Footer"
 import Card from "../component/Card";
+import axios from "axios";
 
 const Home = () => {
   const [foodcat, setFoodCat] = useState([]);
   const [fooditem, setFoodItem] = useState([]);
   const [search, setSearch] = useState("");
 
-  const loadData = async () => {
-    let response = await fetch("http://localhost:5000/api/fooddata", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    response = await response.json();
-    setFoodItem(response[0]);
-    setFoodCat(response[1]);
-  };
+  // const loadData = async () => {
+  //   let response = await fetch("http://localhost:5000/api/foodmenu", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   response = await response.json();
+  //   setFoodItem(response[0]);
+  //   setFoodCat(response[1]);
+  // };
 
+  const loadData = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/foodmenu");
+      if(res.data.success){
+        setFoodItem(res.data.data);
+        const categories = [...new Set(res.data.data.map(item => item.CategoryName))].map(cat => ({ CategoryName: cat, _id: cat }));
+        setFoodCat(categories);
+      }
+    } catch (error) {
+      console.log("Error in fetching foodlist:", error);
+    }
+  };
   useEffect(() => {
     loadData();
   }, []);

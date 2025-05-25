@@ -1,8 +1,60 @@
 import React from 'react'
 import Sidebar from '../../component/Sidebar'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import axios from "axios";
 
 const Foodlist = () => {
+  const [foodlist, setfoodlist] = useState([]);
+  // const deletefood
+
+
+  const fetchfoodlist = async() =>{
+    try {
+      const res =await axios.get("http://localhost:5000/api/foodmenu")
+
+      if(res.data.success){
+        setfoodlist(res.data.data),
+        console.log(res.data.data);
+        
+      }
+    } catch (error) {
+      console.log("Error in fetching foodlist:", error);
+      
+    }
+  }
+
+  //   const loadData = async () => {
+  //   let response = await fetch("http://localhost:5000/api/fooddata", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   response = await response.json();
+  //   setfoodlist(response[0]);
+  // };
+  useEffect(()=>{
+    fetchfoodlist();
+  },[])
+
+  const handeldeletefood = async(id)=>{
+    try {
+      if(!window.confirm("Delete This Food?")) return;
+      await fetch(`http://localhost:5000/api/deletefood/${id}`,{
+        method:"DELETE"
+      });
+       fetchfoodlist();
+
+    } catch (error) {
+      console.log("error in delete food");
+      
+    }
+
+  }
+
+  
   return (
     <>
      <div>
@@ -42,16 +94,35 @@ const Foodlist = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1,001</td>
-                      <td>random</td>
-                      <td>data</td>
-                      <td>placeholder</td>
-                      <td>
-                        <button type="button" className='bg-success btn me-2 p-1'>📝</button>
-                        <button type="button" className='bg-danger btn p-1'>❌</button>
-                      </td>
-                    </tr>
+
+                  
+                    {
+                      foodlist.map((data,index)=>{
+                     
+                       
+                        
+                        return(
+                         <tr>
+                          <td>{index+1}</td>
+                          <td>{data.name}</td>
+                          <td>{data.CategoryName}</td>
+                          <td>
+                            <ul>
+                              {data.options && data.options[0] &&
+                                Object.entries(data.options[0]).map(([size, amount]) => (
+                                  <li key={size}>{size}:- ₹{amount}</li>
+                                ))
+                              }
+                            </ul>
+                          </td>
+                          <td>
+                            <button type="button" className='bg-success btn me-2 p-1'>📝</button>
+                            <button type="button" onClick={()=> handeldeletefood(data._id)} className='bg-danger btn p-1'>❌</button>
+                          </td>
+                        </tr>
+                        )
+                      })
+                    }
                    
                     
                    

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate,useLocation  } from 'react-router-dom'  
 
 const Sidebar = () => {
   const navigate = useNavigate()
@@ -7,6 +7,8 @@ const Sidebar = () => {
     localStorage.removeItem("Master")
     navigate("/master")
   }
+
+    const isActive = (path) => location.pathname === path;
   return (
     <>
            <nav
@@ -18,68 +20,25 @@ const Sidebar = () => {
               <hr />
               <ul className="nav flex-column">
                 <li className="nav-item">
-                  <Link className="nav-link active" aria-current="page" to="/dashboard">
+                  <Link className={`nav-link ${isActive('/dashboard') ? 'active' : ''}`}  aria-current="page" to="/dashboard">
                    📈
                     Dashboard
                   </Link>
                 </li>
                 
                 <li className="nav-item">
-                  <Link className="nav-link" to="/foodlist">
+                  <Link className={`nav-link ${isActive('/foodlist') ? 'active' : ''}`} to="/foodlist">
                     🥗
                     Food List
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/foodcatagory">
+                  <Link className={`nav-link ${isActive('/foodcatagory') ? 'active' : ''}`} to="/foodcatagory">
                     🍽️
                     Food Catagary
                   </Link>
                 </li>
-                {/* <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      className="feather feather-bar-chart-2"
-                      aria-hidden="true"
-                    >
-                      <line x1="18" y1="20" x2="18" y2="10"></line>
-                      <line x1="12" y1="20" x2="12" y2="4"></line>
-                      <line x1="6" y1="20" x2="6" y2="14"></line>
-                    </svg>
-                    Reports
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      className="feather feather-layers"
-                      aria-hidden="true"
-                    >
-                      <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                      <polyline points="2 17 12 22 22 17"></polyline>
-                      <polyline points="2 12 12 17 22 12"></polyline>
-                    </svg>
-                    Integrations
-                  </a>
-                </li> */}
+               
               </ul>
               {
                 !localStorage.getItem("Master")?

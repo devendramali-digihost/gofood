@@ -7,7 +7,11 @@ import axios from "axios";
 const Foodcatagory = () => {
   const [Catogary, setCatogary] = useState([]);
   const [addcat, setaddcat] = useState("");
-const fetchCat = async () => {
+  const [updatecat, setupdatecat] = useState("");
+  const [editCatId, setEditCatId] = useState(null);
+
+
+  const fetchCat = async () => {
       try {
         const res = await axios.get("http://localhost:5000/api/catagory");
         if (res.data.success) {
@@ -21,7 +25,6 @@ const fetchCat = async () => {
   useEffect(() => {
      fetchCat();
   }, []);
-  const count = 1;
 
  const handleaddcat = async (e) => {
     e.preventDefault();
@@ -43,25 +46,40 @@ const fetchCat = async () => {
       console.log("Error adding category:", error);
     }
   };
-  const handeldelete = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/delete/${id}`, {
-        method: 'DELETE',
-      });
 
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.message || 'Failed to delete category');
-      }
 
-      alert('Category deleted successfully');
-      fetchCat(); // refresh categories
-
-    } catch (error) {
-      console.error('Error Deleting category:', error);
-      alert('Error Deleting category: ' + error.message);
-    }
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this category?")) return;
+    await fetch(`http://localhost:5000/api/delete/${id}`, { method: "DELETE" });
+    fetchCat();
   };
+
+const handleupdatecat = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await fetch(`http://localhost:5000/api/updatecatagory/${editCatId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ CategoryName: updatecat }),
+    });
+
+    const json = await res.json();
+    if (json.success) {
+      alert("Category updated successfully");
+      setupdatecat("");
+      setEditCatId(null);
+      fetchCat();
+      document.getElementById("modal-close-btn1").click(); // close modal
+    } else {
+      alert("Update failed");
+    }
+  } catch (error) {
+    console.error("Update error:", error);
+    alert("Error updating category");
+  }
+};
 
 
   return (
@@ -72,14 +90,7 @@ const fetchCat = async () => {
             <Sidebar />
 
             <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-              <div className="chartjs-size-monitor">
-                <div className="chartjs-size-monitor-expand">
-                  <div className=""></div>
-                </div>
-                <div className="chartjs-size-monitor-shrink">
-                  <div className=""></div>
-                </div>
-              </div>
+            
               <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 className="h2 text-success">Food Catagory</h1>
               </div>
@@ -113,15 +124,22 @@ const fetchCat = async () => {
                       return (
                         <tr>
                           <td>{index + 1}</td>
-                          <td>{cat.CategoryName}</td>
+                          <td>{cat.CategoryName}</td>  
                           <td>
                             <button
-                              type="button"
+                               type="button"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModal1"
                               className="bg-success btn me-2 p-1"
+                              onClick={ ()=>{
+                                setEditCatId(cat._id);
+                                setupdatecat(cat.CategoryName)
+                                }
+                              }
                             >
                               📝
                             </button>
-                            <button type="button" onClick={()=>handeldelete(cat._id)} className="bg-danger btn p-1">
+                            <button type="button" onClick={()=>handleDelete(cat._id)} className="bg-danger btn p-1">
                               ❌
                             </button>
                           </td>
@@ -134,7 +152,7 @@ const fetchCat = async () => {
             </main>
           </div>
         </div>
-        {/* <!-- Modal --> */}
+        {/* <!-- add Modal --> */}
         <div
           className="modal fade"
           id="exampleModal"
@@ -171,6 +189,55 @@ const fetchCat = async () => {
                     type="button"
                     className="btn btn-danger"
                     id="modal-close-btn"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button type="Submit" className="btn btn-success">
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        {/* <!-- Modal --> */}
+        <div
+          className="modal fade"
+          id="exampleModal1"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <form onSubmit={handleupdatecat}>
+                <div className="modal-header">
+                  <h1 className="modal-title fs-5" id="exampleModalLabel">
+                    Update Catagory
+                  </h1>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <label className="form-label">Catagory</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={updatecat}
+                    required
+                    onChange={(e)=>setupdatecat(e.target.value)}
+                  />
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    id="modal-close-btn1"
                     data-bs-dismiss="modal"
                   >
                     Close
