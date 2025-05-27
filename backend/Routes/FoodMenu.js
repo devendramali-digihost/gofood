@@ -61,6 +61,44 @@ router.delete("/deletefood/:id", async(req,res)=>{
   }
 })
 
+router.put("/updatefood/:id", async(req,res)=>{
+  try {
+    const id = req.params.id;   
+    if(!mongoose.Types.ObjectId.isValid(id)){
+      return res.status(400).json({success:false, message:"invalid food id"})
+    }
+    const updatedFood = await FoodMenu.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updatedFood) {
+      return res.status(404).json({ success: false, message: "Food not found" });
+    }
+    res.status(200).json({ success: true, data: updatedFood });
+  }
+  catch (error) {
+    console.log("Error in updating food:", error.message);
+    res.status(500).json({ success: false, message: "Server Error: " + error.message });
+  }
+})
+
+router.get("/getfood/:id", async (req, res) => {
+  const { id } = req.params;
+
+  // Validate MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ success: false, message: "Invalid food ID" });
+  }
+
+  try {
+    const food = await FoodMenu.findById(id);
+    if (!food) {
+      return res.status(404).json({ success: false, message: "Food not found" });
+    }
+
+    res.json({ success: true, data: food });
+  } catch (error) {
+    console.error("Error fetching food by ID:", error.message);
+    res.status(500).json({ success: false, message: "Server error: " + error.message });
+  }
+});
 
 
 

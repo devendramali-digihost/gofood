@@ -37,6 +37,10 @@ const Home = () => {
     loadData();
   }, []);
 
+
+  // http://gomoto.like-themes.com/
+  // https://dixonandmoe.com/rellax/
+
   return (
     <div>
        <Navbar/>
@@ -108,7 +112,7 @@ const Home = () => {
                 <div className="fs-3 m-3">{data.CategoryName}</div>
                 <hr />
                 {filteredItems.map((filteritems) => (
-                  <div key={filteritems._id} className="col-12 col-md-6 col-lg-3">
+                  <div key={filteritems._id} className="col-12 col-md-6 col-lg-3 mb-3">
                     <Card
                       fooditem={filteritems}
                       options={filteritems.options[0]}

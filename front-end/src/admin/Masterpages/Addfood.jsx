@@ -150,7 +150,7 @@ const Addfood = () => {
                                       placeholder="Option (e.g. half, full, large)"
                                     />
                                     <input
-                                      type="text"
+                                      type="number"
                                       className="form-control"
                                       name="value"
                                       value={row.value}

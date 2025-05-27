@@ -33,7 +33,7 @@ function App() {
                 <Route path='/foodlist' element={<Foodlist/>}/>
                 <Route path='/foodcatagory' element={<Foodcatagory/>}/>
                 <Route path='/addfood' element={<Addfood/>}/>
-                <Route path='/updatefood' element={<Updatefood/>}/>
+                <Route path='/updatefood/:id' element={<Updatefood/>}/>
               </Routes>
       
                

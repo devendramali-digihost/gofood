@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./../component/Navbar"
-import Footer from "./../component/Footer"
-
+import Navbar from "./../component/Navbar";
+import Footer from "./../component/Footer";
 
 const Myorder = () => {
   const [orderData, setOrderData] = useState([]);
@@ -37,35 +36,43 @@ const Myorder = () => {
     fetchOrders();
   }, []);
 
+  // Helper to format date string nicely
+  const formatDate = (dateStr) => {
+    try {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } catch {
+      return dateStr;
+    }
+  };
+
   return (
     <>
-     <Navbar/>
+      <Navbar />
       <div className="container my-5">
         <div className="row">
           {orderData.length === 0 ? (
             <div className="fs-3 text-white text-center w-100">No orders found.</div>
           ) : (
-            // orderData is an array of orders
             orderData
               .slice(0)
               .reverse()
               .map((orderGroup, idx) => {
-                // orderGroup is an array with an object containing Order_date + order items
-                // Separate the date from the items
-                const orderDateObj = orderGroup.find(
-                  (item) => item.Order_date !== undefined
-                );
-                const orderDate = orderDateObj ? orderDateObj.Order_date : "Unknown Date";
+                const orderDateObj = orderGroup.find((item) => item.Order_date !== undefined);
+                const orderDate = orderDateObj ? formatDate(orderDateObj.Order_date) : "Unknown Date";
 
-                // Filter out the date object to get only items
-                const items = orderGroup.filter(
-                  (item) => item.Order_date === undefined
-                );
+                const items = orderGroup.filter((item) => item.Order_date === undefined);
 
                 return (
                   <React.Fragment key={idx}>
-                    <div className="col-12 mt-5" >
-                      <h4 className=" my-3">Order Date: {orderDate}</h4>
+                    <div className="col-12 mt-5">
+                      <h4 className="my-3">Order Date: {orderDate}</h4>
                       <hr />
                     </div>
 
@@ -83,7 +90,7 @@ const Myorder = () => {
                             <div className="d-flex justify-content-between align-items-center">
                               <span>Qty: {item.qty}</span>
                               <span>Size: {item.size}</span>
-                              <span>₹{item.price}/-</span>
+                              <span>₹{item.price ?? item.unitPrice * item.qty}/-</span>
                             </div>
                           </div>
                         </div>
@@ -95,8 +102,7 @@ const Myorder = () => {
           )}
         </div>
       </div>
-         <Footer/>
-     
+      <Footer />
     </>
   );
 };

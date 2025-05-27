@@ -20,7 +20,7 @@ const Dashboard = () => {
   }, []);
 
   const calculateTotal = (items) =>
-    items.reduce((total, item) => total + item.price * item.qty, 0);
+    items.reduce((total, item) => total + item.unitPrice * item.qty, 0);
 
   // ✅ Flatten order_data groups into one array with meta info
   const flatOrders = orders.flatMap((order) =>
@@ -76,6 +76,8 @@ const Dashboard = () => {
                     </tr>
                   ) : (
                     flatOrders.map((order, index) => (
+                      console.log("order", order),
+                      
                       <tr key={index}>
                         <td>{count++}</td>
                         <td>{order.name}</td>

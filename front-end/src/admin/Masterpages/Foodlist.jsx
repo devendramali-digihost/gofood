@@ -116,7 +116,7 @@ const Foodlist = () => {
                             </ul>
                           </td>
                           <td>
-                            <button type="button" className='bg-success btn me-2 p-1'>📝</button>
+                            <Link type="button" to={`/updatefood/${data._id}`} className='bg-success btn me-2 p-1'>📝</Link>
                             <button type="button" onClick={()=> handeldeletefood(data._id)} className='bg-danger btn p-1'>❌</button>
                           </td>
                         </tr>

@@ -9,61 +9,48 @@ const Card = (props) => {
   const [qty, setQty] = useState(1);
   const [size, setSize] = useState("");
 
-  const handleAddToCart = async () => {
-    const finalprice = qty * parseInt(options[size]);
+  useEffect(() => {
+    setSize(priceOptions[0]);
+  }, [priceOptions]);
 
-    let existingItem = null;
-    for (const item of data) {
-      if (item.id === props.fooditem._id && item.size === size) {
-        existingItem = item;
-        break;
-      }
+  const handleAddToCart = () => {
+    if (!size) {
+      alert("Please select a size");
+      return;
     }
 
+    const unitPrice = parseInt(options[size]);
+    const finalPrice = qty * unitPrice;
+
+    // Check if item with same id and size already exists
+    let existingItem = data.find(
+      (item) => item.id === props.fooditem._id && item.size === size
+    );
+
     if (existingItem) {
-      // Update quantity and price if same item and same size exists
-      await dispatch({
+      // Update quantity (add to existing)
+      dispatch({
         type: "UPDATE",
         id: props.fooditem._id,
         size: size,
         qty: qty,
-        price: finalprice,
       });
-      return
     } else {
-      // Add as new item if size differs or item doesn't exist
-      await dispatch({
-        type: "Add",
+      // Add new item
+      dispatch({
+        type: "ADD",
         id: props.fooditem._id,
         name: props.fooditem.name,
-        price: finalprice,
         qty: qty,
         size: size,
+        unitPrice: unitPrice,
         img: props.fooditem.img,
       });
-      return;
     }
-    await dispatch({
-      type: "Add",
-      id: props.fooditem._id,
-      name: props.fooditem.name,
-      price: finalprice,
-      qty: qty,
-      size: size,
-      img: props.fooditem.img,
-    });
-
-    console.log("Cart updated:", data);
   };
-  let finalprice = qty * parseInt(options[size]);
-
-  useEffect(() => {
-    setSize(priceOptions[0]);
-  }, []);
 
   return (
-    <div>
-      <div className="card mt-3">
+        <div className="card mt-3">
         <img src={props.fooditem.img} className="card-img-top item" alt="..." />
         <div className="card-body">
           <h5 className="card-title">{props.fooditem.name}</h5>
@@ -103,7 +90,6 @@ const Card = (props) => {
           </button>
         </div>
       </div>
-    </div>
   );
 };
 

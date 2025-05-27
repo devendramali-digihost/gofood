@@ -1,188 +1,208 @@
-import React from 'react'
-import Sidebar from '../../component/Sidebar'
-import { useState } from 'react'
-import axios from 'axios'
-import { useEffect } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import Sidebar from '../../component/Sidebar';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Updatefood = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
   const [addfood, setaddfood] = useState({
-    name:"",
-    CategoryName:"",
-    img:"",
-    options:"",
-    description:""
+    name: "",
+    CategoryName: "",
+    img: "",
+    description: ""
   });
-  const [catogary, setCatogary] =useState([])
+
+  const [catogary, setCatogary] = useState([]);
 
   const [optionrow, setoptionrow] = useState([
-    {
-      key:"",
-      value:''
+    { key: "", value: "" }
+  ]);
 
-    }
-  ])
-  const onchange = (e)=>{
-    setaddfood({...addfood,[e.target.name]: e.target.value});
-  }
-
-  const handleoptionrowchange = (index, e)=>{
-    const {name, value} = e.target;
-    const rows = [...optionrow]
-    rows[index][name]= value;
-    setoptionrow(rows)
-  }
-
-  const fetchcat = async()=>{
-    try {
-      const res = await axios.get("http://localhost:5000/api/catagory")
-      if(res.data.success){
-        setCatogary(res.data.data)
-      }
-      
-    } catch (error) {
-       console.log("error fetch Catogary", error);
-    }
-  }
+  // Get single food item by ID
   useEffect(() => {
-     fetchcat();
+    const getFoodData = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/getfood/${id}`);
+        const json = await res.json();
+        if (json.success) {
+          setaddfood({
+            name: json.data.name,
+            CategoryName: json.data.CategoryName,
+            img: json.data.img,
+            description: json.data.description
+          });
+
+          if (json.data.options && json.data.options.length > 0) {
+            const optionsObj = json.data.options[0];
+            const optionsArray = Object.entries(optionsObj).map(([key, value]) => ({ key, value }));
+            setoptionrow(optionsArray);
+          }
+        }
+      } catch (err) {
+        console.log("Failed to load food data", err);
+      }
+    };
+
+    getFoodData();
+  }, [id]);
+
+  // Get category list
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/foodmenu");
+        const json = await res.json();
+        if (json.success) {
+          const uniqueCategories = [...new Set(json.data.map(item => item.CategoryName))];
+          setCatogary(uniqueCategories.map(c => ({ CategoryName: c })));
+        }
+      } catch (err) {
+        console.log("Error fetching categories", err);
+      }
+    };
+
+    getCategories();
   }, []);
 
-  const mergedoptions = optionrow.reduce((acc,curr)=>{
-    if(curr.key && curr.value){
-        acc[curr.key]= curr.value
-    }
-    return acc;
-  },{})
+  const onchange = (e) => {
+    setaddfood({ ...addfood, [e.target.name]: e.target.value });
+  };
 
-  const handelsubmit =async(e)=>{
+  const handleoptionrowchange = (index, e) => {
+    const { name, value } = e.target;
+    const rows = [...optionrow];
+    rows[index][name] = value;
+    setoptionrow(rows);
+  };
+
+  const handelsubmit = async (e) => {
     e.preventDefault();
+
+    // Merge options to object format
+    const mergedoptions = {};
+    optionrow.forEach(item => {
+      if (item.key && item.value) {
+        mergedoptions[item.key] = item.value;
+      }
+    });
+
     const fooddata = {
       ...addfood,
-      options:[mergedoptions]
+      options: [mergedoptions]
     };
-    // console.log(fooddata);
+
     try {
-      const resp = await fetch("http://localhost:5000/api/createfood",{
-         method: "POST",
+      const resp = await fetch(`http://localhost:5000/api/updatefood/${id}`, {
+        method: "PUT",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(fooddata)
-      })
-      const json = await resp.json();
-      console.log("Food Added");
-      alert("Food added ");
-      navigate("/foodlist")
-    } catch (error) {
-      console.log("error in adding food ", error);
-      
-    }
+      });
 
-    
-    
-  }
-  // console.log(catogary);
-  
+      const json = await resp.json();
+      if (json.success) {
+        alert("Food updated successfully");
+        navigate("/foodlist");
+      } else {
+        alert("Failed to update food");
+      }
+
+    } catch (error) {
+      console.log("Error in updating food", error);
+    }
+  };
 
   return (
-    <>
     <div className="container-fluid">
-        <div className="row">
-               <Sidebar/>
+      <div className="row">
+        <Sidebar />
 
-            <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-             
-              <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 className="h2 text-success">Add Food</h1>
-                
-              </div>
-              <div className="container mt-5">
-                <div className="adform">
-                <h3 className='mb-3'>Add Food</h3>
-                     <form class="row g-3" onSubmit={handelsubmit}>
-                    <div class="col-md-6">
-                        <label  class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name"  value={addfood.name} onChange={onchange} required/>
-                    </div>
-                      <div class="col-md-6">
-                        <label for="validationCustom04" class="form-label">Catogary</label>
-                        <select class="form-select" name="CategoryName"  value={addfood.CategoryName} onChange={onchange} required>
-                            <option selected disabled value="">Choose...</option>
-                            {
-                              catogary.map((data,index)=>{
-                               return(
-                                  <option value={data.CategoryName}>{data.CategoryName}</option>
-                               )
-                              })
-                            }
-                            
-                        </select>
-                        <div class="invalid-feedback">
-                        Please select a valid state.
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label  class="form-label">Img URL</label>
-                        <input type="text" class="form-control"  name="img"  value={addfood.img} onChange={onchange} required/>
-                    </div>
-                    <div class="col-md-6">
-                        <label  class="form-label">Description</label>
-                        <input type="text" class="form-control"   name="description"  value={addfood.description} onChange={onchange} required/>
-                    </div>
-                    
-                    <div class="col-md-12">
-                        <label  class="form-label">Type</label>
-                        <div className="row">
-                          {
-                            optionrow.map((row, index)=>{
-                              return(
-                                  <div className="col-lg-6" key={index}>
-                                  <div className="d-flex gap-1" style={{ margin: '10px 0' }}>
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                      name="key"
-                                      value={row.key}
-                                      onChange={(e) => handleoptionrowchange(index, e)}
-                                      placeholder="Option (e.g. half, full, large)"
-                                    />
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                      name="value"
-                                      value={row.value}
-                                      onChange={(e) => handleoptionrowchange(index, e)}
-                                      placeholder="Price (e.g. 200)"
-                                    />
-                                  </div>
-                                </div>
-                              )
-                            })
-                          }
-                           
-                            <div>
-                                <button className='d-flex btn btn-success' style={{ width: 'auto',height:"fit-content" }} onClick={()=> setoptionrow([...optionrow,{key:"",value:""}])} type="button" >+</button>
-                            </div>
-                        </div>
-                    </div>
-                
-                   
-                
-                
-                    <div class="col-12">
-                        <button class="btn btn-success" type="submit">Submit form</button>
-                    </div>
-                </form>
+        <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 className="h2 text-success">Update Food</h1>
+          </div>
+
+          <div className="container mt-5">
+            <div className="adform">
+              <h3 className='mb-3'>Update Food</h3>
+              <form className="row g-3" onSubmit={handelsubmit}>
+                <div className="col-md-6">
+                  <label className="form-label">Name</label>
+                  <input type="text" className="form-control" name="name" value={addfood.name} onChange={onchange} required />
                 </div>
-              </div>
-            </main>
-        </div>
-      </div>
-    </>
-  )
-}
 
-export default Updatefood
+                <div className="col-md-6">
+                  <label className="form-label">Category</label>
+                  <select className="form-select" name="CategoryName" value={addfood.CategoryName} onChange={onchange} required>
+                    <option disabled value="">Choose...</option>
+                    {
+                      catogary.map((data, index) => (
+                        <option key={index} value={data.CategoryName}>{data.CategoryName}</option>
+                      ))
+                    }
+                  </select>
+                </div>
+
+                <div className="col-md-6">
+                  <label className="form-label">Image URL</label>
+                  <input type="text" className="form-control" name="img" value={addfood.img} onChange={onchange} required />
+                </div>
+
+                <div className="col-md-6">
+                  <label className="form-label">Description</label>
+                  <input type="text" className="form-control" name="description" value={addfood.description} onChange={onchange} required />
+                </div>
+
+                <div className="col-md-12">
+                  <label className="form-label">Options</label>
+                  <div className="row">
+                    {
+                      optionrow.map((row, index) => (
+                        <div className="col-lg-6" key={index}>
+                          <div className="d-flex gap-1" style={{ margin: '10px 0' }}>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="key"
+                              value={row.key}
+                              onChange={(e) => handleoptionrowchange(index, e)}
+                              placeholder="Option (e.g. half, full)"
+                            />
+                            <input
+                              type="number"
+                              className="form-control"
+                              name="value"
+                              value={row.value}
+                              onChange={(e) => handleoptionrowchange(index, e)}
+                              placeholder="Price (e.g. 250)"
+                            />
+                          </div>
+                        </div>
+                      ))
+                    }
+
+                    <div>
+                      <button className='btn btn-success' type="button"
+                        onClick={() => setoptionrow([...optionrow, { key: "", value: "" }])}
+                        style={{ width: 'auto', height: 'fit-content' }}>
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-12">
+                  <button className="btn btn-success" type="submit">Update Food</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default Updatefood;

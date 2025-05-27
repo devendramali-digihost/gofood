@@ -5,34 +5,39 @@ const cartDispatchContext = createContext();
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "Add":
-      return [...state, {
-        id: action.id,
-        name: action.name,
-        qty: action.qty,
-        size: action.size,
-        price: action.price,
-        img: action.img
-      }];
-    case "REMOVE":
-      let newArr = [...state]
-      newArr.splice(action.index,1)
+    case "ADD": {
+      // Add new item with unitPrice stored separately
+      return [
+        ...state,
+        {
+          id: action.id,
+          name: action.name,
+          qty: action.qty,
+          size: action.size,
+          unitPrice: action.unitPrice,  // store unit price
+          img: action.img,
+        },
+      ];
+    }
+    case "REMOVE": {
+      let newArr = [...state];
+      newArr.splice(action.index, 1);
       return newArr;
-
-    case "UPDATE":
+    }
+    case "UPDATE": {
+      // Find the item and update qty by adding
       return state.map((food) => {
         if (food.id === action.id && food.size === action.size) {
-          const updatedQty = parseInt(action.qty) + parseInt(food.qty);
-          const updatedPrice = action.price + food.price;
-          return { ...food, qty: updatedQty, price: updatedPrice };
+          const updatedQty = parseInt(food.qty) + parseInt(action.qty);
+          return { ...food, qty: parseInt(action.qty), size: action.size, };
         }
         return food;
       });
+    }
     case "DROP":
-      let empArray = []
-      return empArray
+      return [];
     default:
-      console.log("Error in reducer");
+      console.error("Error in reducer: unknown action type");
       return state;
   }
 };
