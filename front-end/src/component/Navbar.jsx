@@ -14,24 +14,32 @@ const Navbar = () => {
     navigate("/login")
   } 
   return (
-    <div><nav className="navbar navbar-expand-lg navbar-dark bg-success">
+    <div><nav className="navbar header navbar-expand-lg navbar-dark ">
   <div className="container-fluid">
-    <Link className="navbar-brand fs-1 fst-italic" to="/">GoFood</Link>
+    <Link className="navbar-brand fs-1 fst-italic" to="/">
+      <img src="http://gomoto.like-themes.com/wp-content/uploads/2019/06/logo_1x.png" alt="" />
+    </Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon"></span>
     </button>
-    <div className="collapse navbar-collapse" id="navbarNav">
-      <ul className="navbar-nav me-auto mb-2">
+    <div className="collapse navbar-collapse " id="navbarNav">
+      <ul className="navbar-nav m-auto mb-2">
         <li className="nav-item">
-          <Link className="nav-link active fs-5" aria-current="page" to="/">Home</Link>
+          <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" aria-current="page" to="/">About</Link>
         </li>
         {
           (localStorage.getItem("authToken"))?
             <li className="nav-item">
-          <Link className="nav-link  fs-5" aria-current="page" to="/myorders">My Orders</Link>
+          <Link className="nav-link " aria-current="page" to="/myorders">My Orders</Link>
         </li>:
         ""
         }
+         <li className="nav-item">
+          <Link className="nav-link" aria-current="page" to="/">Contact</Link>
+        </li>
       </ul>
          {
           (!localStorage.getItem("authToken"))?

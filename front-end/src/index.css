@@ -171,3 +171,21 @@ body{
   border: 1px solid #bfbfbf;
   padding: 40px;
 }
+ .header{
+  background-color: #282932;
+ }
+ .header .navbar-nav{
+   margin-bottom: 0 !important;
+  }
+  .header .navbar-nav .nav-link{
+    font-weight: 800;
+    font-size: 14px;
+    color: #fff;
+
+  }
+    .header .navbar-nav .nav-link.active{
+      color: #f7b614;
+    }
+    .header .navbar-nav .nav-link:hover{
+      color: #f7b614;
+    }
