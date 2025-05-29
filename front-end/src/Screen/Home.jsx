@@ -3,28 +3,26 @@ import Navbar from "./../component/Navbar"
 import Footer from "./../component/Footer"
 import Card from "../component/Card";
 import axios from "axios";
+import img from "../../public/assets/pizza.png";
+import img1 from "../../public/assets/clock.png";
+import img2 from "../../public/assets/location.png";
+import img3 from "../../public/assets/man.png";
+import img4 from "../../public/assets/mob.png";
+import Rellax from 'rellax';
+import Contacthome from "../component/Contacthome";
+import Testimonial from "../component/Testimonial";
 
 const Home = () => {
   const [foodcat, setFoodCat] = useState([]);
   const [fooditem, setFoodItem] = useState([]);
   const [search, setSearch] = useState("");
+  // var rellax = new Rellax('.rellax');
 
-  // const loadData = async () => {
-  //   let response = await fetch("http://localhost:5000/api/foodmenu", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   response = await response.json();
-  //   setFoodItem(response[0]);
-  //   setFoodCat(response[1]);
-  // };
 
   const loadData = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/foodmenu");
-      if(res.data.success){
+      if (res.data.success) {
         setFoodItem(res.data.data);
         const categories = [...new Set(res.data.data.map(item => item.CategoryName))].map(cat => ({ CategoryName: cat, _id: cat }));
         setFoodCat(categories);
@@ -37,18 +35,25 @@ const Home = () => {
     loadData();
   }, []);
 
+useEffect(() => {
+  const rellax = new Rellax('.rellax', { speed: 2.5 });
+
+  return () => {
+    rellax.destroy();
+  };
+}, []);
 
   // http://gomoto.like-themes.com/
   // https://dixonandmoe.com/rellax/
 
   return (
     <div>
-       <Navbar/>
-   
+      <Navbar />
+
       <div>
-        <div id="carouselExample" className="carousel slide carousel-fade">
+        <div id="carouselExample1" className="carousel slide home-slider carousel-fade">
           <div className="carousel-inner" id="carousel">
-            <div className="carousel-caption" style={{ zIndex: "10" }}>
+            {/* <div className="carousel-caption" style={{ zIndex: "10" }}>
               <form className="d-flex justify-content-center" role="search">
                 <input
                   className="form-control me-2"
@@ -59,44 +64,87 @@ const Home = () => {
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </form>
-            </div>
+            </div> */}
             <div className="carousel-item active">
-              <img
-                src="https://images.unsplash.com/photo-1547584370-2cc98b8b8dc8?q=80&w=1471&auto=format&fit=crop"
-                className="d-block w-100"
-                style={{ filter: "brightness(30%)", objectFit: "cover" }}
-                alt="..."
-              />
+              <div className="slider-content">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="const">
+                      <h1>Express  <br /><span>Home Delivery</span></h1>
+                      <p>Curabitur imperdiet varius lacus, id placerat purus vulputate non. Fusce in felis vel arcu maximus placerat eu ut arcu. Ut nunc ex, gravida vel porttitor et, pretium ac sapien.</p>
+                      <a href="#!" className="btn1">Read More</a>
+                    </div>
+                  </div>
+                  <div className="col-lg-6">
+                    <figure className="sliderimg">
+                      < img src="http://gomoto.like-themes.com/wp-content/uploads/2020/04/slider-courier-mask.png" alt="" />
+
+                    </figure>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="carousel-item">
-              <img
-                src="https://images.unsplash.com/photo-1571091655789-405eb7a3a3a8?q=80&w=1472&auto=format&fit=crop"
-                className="d-block w-100"
-                style={{ filter: "brightness(30%)", objectFit: "cover" }}
-                alt="..."
-              />
-            </div>
-            <div className="carousel-item">
-              <img
-                src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?q=80&w=1471&auto=format&fit=crop"
-                className="d-block w-100"
-                style={{ filter: "brightness(30%)", objectFit: "cover" }}
-                alt="..."
-              />
-            </div>
+
+
           </div>
-          <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          {/* <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Previous</span>
           </button>
           <button className="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
             <span className="carousel-control-next-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Next</span>
-          </button>
+          </button> */}
         </div>
       </div>
+      <div className="catogary1">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-3 col-md-6 col-sm-12">
+             <a href="#!">
+               <div className="catogary">
+                <figure><img src={img} alt="" /></figure>
+                <h3>Food Delivery</h3>
+              </div>
+             </a>
+            </div>
+             <div className="col-lg-3 col-md-6 col-sm-12">
+             <a href="#!">
+               <div className="catogary">
+                <figure><img src={img} alt="" /></figure>
+                <h3>Food Delivery</h3>
+              </div>
+             </a>
+            </div>
+             <div className="col-lg-3 col-md-6 col-sm-12">
+             <a href="#!">
+               <div className="catogary">
+                <figure><img src={img} alt="" /></figure>
+                <h3>Food Delivery</h3>
+              </div>
+             </a>
+            </div>
+             <div className="col-lg-3 col-md-6 col-sm-12">
+             <a href="#!">
+               <div className="catogary">
+                <figure><img src={img} alt="" /></figure>
+                <h3>Food Delivery</h3>
+              </div>
+             </a>
+            </div>
+          </div>
+        </div>
 
-      <div className="container">
+
+      </div>
+
+      <div className="container mt-5">
+        <div className="title">
+            <span>Quick pick</span>
+          <h3>
+            Popular Goods
+          </h3>
+        </div>
         {foodcat.length > 0 ? (
           foodcat.map((data) => {
             const filteredItems = fooditem.filter(
@@ -126,9 +174,87 @@ const Home = () => {
           <div>Loading categories...</div>
         )}
       </div>
-         <Footer/>
 
- 
+      <div className="cta">
+        <div className="row g-0">
+          <div className="col-lg-6">
+            <figure className="ctaimg">
+              <img src="http://gomoto.like-themes.com/wp-content/uploads/2019/06/sit-photo.jpg" alt="" />
+            </figure>
+          </div>
+          <div className="col-lg-6">
+            <div className="ctacontent">
+              <h3>Sit at Home <br /> <span> We Will Take Care</span></h3>
+              <p>Proin ornare posuere quam ut euismod. Nam eu nunc vitae orci ultrices imperdiet ut id ligula. Sed interdum eros eget sagittis rutrum. Vestibulum in elementum mauris. In iaculis odio urna.</p>
+              <div className="row">
+                <div className="col-lg-3 col-md-6 col-sm-12">
+                  <div className="supp">
+                    <figure>
+                      <img src={img1} alt="" />
+                    </figure>
+                    <h4>Fast Delivery in 1 Hour</h4>
+                  </div>
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-12">
+                  <div className="supp">
+                    <figure>
+                      <img src={img2} alt="" />
+                    </figure>
+                    <h4>Wide Coverage Map</h4>
+                  </div>
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-12">
+                  <div className="supp">
+                    <figure>
+                      <img src={img3} alt="" />
+                    </figure>
+                    <h4>More Than 150 Couriers</h4>
+                  </div>
+                </div>
+                <div className="col-lg-3 col-md-6 col-sm-12">
+                  <div className="supp">
+                    <figure>
+                      <img src={img4} alt="" />
+                    </figure>
+                    <h4>Amazing Mobile App</h4>
+                  </div>
+                </div>
+              </div>
+              <a href="#!" className="btn1">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="pizzabanner">
+          <div className="pizzasec">
+            <div className="row">
+              <div className="col-lg-5">
+                <div className="content">
+                  <h3>Always <br />
+                    <span>the Hottest <br />
+                    Pizza</span></h3>
+                    <p>Curabitur imperdiet varius lacus, id placerat purus vulputate non. Fusce in felis vel arcu maximus placerat eu ut arcu. Ut nunc ex, gravida vel porttitor et, pretium ac sapien.</p>
+                      <a href="#!" className="btn1 btn2 mt-5">Get Food</a>
+                </div>
+              </div>
+            </div>
+           <div className="relaxcont">
+             
+                 <div className="img1 piz1 rellax" ><figure><img src="http://gomoto.like-themes.com/wp-content/uploads/2020/04/pizza-parallax-4.png" alt="" /></figure></div>
+                <div className="img2 piz1 rellax" ><figure><img src="http://gomoto.like-themes.com/wp-content/uploads/2020/04/pizza-parallax-2.png" alt="" /></figure></div>
+                <div className="img3 piz1 rellax" ><figure><img src="	http://gomoto.like-themes.com/wp-content/uploads/2020/04/pizza-parallax-3.png" alt="" /></figure></div>
+                <div className="img4 piz1 rellax" ><figure><img src="http://gomoto.like-themes.com/wp-content/uploads/2020/04/pizza-parallax-5.png" alt="" /></figure></div>
+                <div className="img5 piz1 rellax" ><figure><img src="	http://gomoto.like-themes.com/wp-content/uploads/2020/04/pizza-parallax-1.png" alt="" /></figure></div>
+   
+           </div>
+
+          </div>
+      </div>
+      <Testimonial/>
+      <Contacthome/>
+      <Footer />
+
+
     </div>
   );
 };

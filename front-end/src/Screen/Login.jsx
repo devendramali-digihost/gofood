@@ -48,7 +48,7 @@ const Login = () => {
               <div className="row justify-content-center">
                 <div className="col-lg-7">
                   <div className="form1">
-                    <h1 className="text-success mb-3 fs-1">Log In</h1>
+                    <h1 className="text-yellow mb-3 fs-1">Log In</h1>
                     <form onSubmit={handlesubmit}>
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">Email address</label>
@@ -73,10 +73,10 @@ const Login = () => {
                   />
                 </div>
 
-                <button type="submit" className="my-3 btn btn-success">
+                <button type="submit" className="my-3 mb-2 d-block btn btn addtocart">
                   Login
                 </button>
-                <Link to="/signup" className="mx-3 btn btn-danger">
+                <Link to="/signup" className="mx-3 text-decoration-none text-dark" >
                   I dont have a account
                 </Link>
               </form>

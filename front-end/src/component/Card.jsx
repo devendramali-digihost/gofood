@@ -82,7 +82,7 @@ const Card = (props) => {
           </div>
           <hr />
           <button
-            className="btn btn-success justify-center ms-2"
+            className="btn addtocart justify-center ms-2"
             onClick={handleAddToCart}
             // disabled={!localStorage.getItem("authToken")}
           >

@@ -14,6 +14,7 @@ import Foodlist from './admin/Masterpages/Foodlist'
 import Foodcatagory from './admin/Masterpages/Foodcatagory'
 import Addfood from './admin/Masterpages/Addfood'
 import Updatefood from './admin/Masterpages/Updatefood'
+import Error from './Screen/Error'
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
                 <Route path='/foodcatagory' element={<Foodcatagory/>}/>
                 <Route path='/addfood' element={<Addfood/>}/>
                 <Route path='/updatefood/:id' element={<Updatefood/>}/>
+                <Route path='/*' element={<Error/>}/>
               </Routes>
       
                

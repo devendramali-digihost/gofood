@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import img from "../../public/assets/logo.png"
 
 
 const Masterlogin = () => {
@@ -21,7 +22,7 @@ const Masterlogin = () => {
     <main className="form-signin">
       <form onSubmit={handlesubmit}>
 
-        <h1 className="h3 mb-3 fw-normal text-success">Gofood</h1>
+        <h1 className="h3 mb-3 fw-normal text-black"><img src={img} alt="" /></h1>
         <h1 className="h3 mb-3 fw-normal">Please Log in</h1>
 
         <div className="form-floating">

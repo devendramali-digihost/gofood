@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, useNavigate,useLocation  } from 'react-router-dom'  
+import logo from "../../public/assets/logo.png"
 
 const Sidebar = () => {
   const navigate = useNavigate()
@@ -16,7 +17,7 @@ const Sidebar = () => {
             className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
           >
             <div className="position-sticky ">
-              <Link style={{textDecoration:"none"}} to="/"><h1 className="text-success">Gofood</h1></Link>
+              <Link className="mx-3" style={{textDecoration:"none"}} to="/"> <img src={logo} alt="" /></Link>
               <hr />
               <ul className="nav flex-column">
                 <li className="nav-item">

@@ -50,7 +50,7 @@ const SignUp = () => {
           <div className="row justify-content-center">
             <div className="col-lg-7">
               <div className="form1">
-                <h1 className="text-success mb-3 fs-1">Registration</h1>
+                <h1 className="text-yellow mb-3 fs-1">Registration</h1>
               <form onSubmit={handlesubmit}>
                 <div className="form-group">
                   <label htmlFor="exampleInputname">Name</label>
@@ -97,10 +97,10 @@ const SignUp = () => {
                   />
                 </div>
 
-                <button type="submit" className="my-3 btn btn-success">
+                <button type="submit" className="my-3 d-block mb-2 btn addtocart  ">
                   Submit
                 </button>
-                <Link to="/login" className="m-3 btn btn-danger">
+                <Link to="/login" className="m-3 text-decoration-none text-dark"> 
                   Already a User
                 </Link>
               </form>

@@ -45,13 +45,13 @@ const Navbar = () => {
           (!localStorage.getItem("authToken"))?
       <div className='d-flex'>
          
-          <Link className="btn bg-white text-success mx-1" to="/login">Login</Link>
-          <Link className="btn bg-white text-success mx-1" to="/signup">Sign Up</Link>
+          <Link className="btn bg-white text-black mx-1" to="/login">Login</Link>
+          <Link className="btn bg-white text-black mx-1" to="/signup">Sign Up</Link>
        
       </div>
       :
       <div className="">
-        <div className='btn bg-white text-success mx-2' onClick={()=>{setcartview(true)}}>
+        <div className='btn bg-white text-black mx-2' onClick={()=>{setcartview(true)}}>
           My Cart
           <span className='text-white bg-danger p-1 ms-1 ' style={{borderRadius:"50%", height:"25px", width:"25px", display:'inline-flex', alignItems:"center", justifyContent:"center"}}>{data.length}</span>
         </div> 
