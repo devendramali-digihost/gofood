@@ -37,7 +37,7 @@ function App() {
                 <Route path='/addfood' element={<Addfood/>}/>
                 <Route path='/updatefood/:id' element={<Updatefood/>}/>
                 <Route path='/*' element={<Error/>}/>
-                <Route path='/food' element={<Food/>}/>
+                <Route path='/food/:catogaries' element={<Food/>}/>
               </Routes>
       
                

@@ -11,6 +11,8 @@ import img4 from "../../public/assets/mob.png";
 import Rellax from 'rellax';
 import Contacthome from "../component/Contacthome";
 import Testimonial from "../component/Testimonial";
+import { Link } from "react-router-dom";
+
 
 const Home = () => {
   const [foodcat, setFoodCat] = useState([]);
@@ -100,38 +102,24 @@ useEffect(() => {
       <div className="catogary1">
         <div className="container">
           <div className="row">
-            <div className="col-lg-3 col-md-6 col-sm-12">
-             <a href="#!">
-               <div className="catogary">
-                <figure><img src={img} alt="" /></figure>
-                <h3>Food Delivery</h3>
-              </div>
-             </a>
-            </div>
-             <div className="col-lg-3 col-md-6 col-sm-12">
-             <a href="#!">
-               <div className="catogary">
-                <figure><img src={img} alt="" /></figure>
-                <h3>Food Delivery</h3>
-              </div>
-             </a>
-            </div>
-             <div className="col-lg-3 col-md-6 col-sm-12">
-             <a href="#!">
-               <div className="catogary">
-                <figure><img src={img} alt="" /></figure>
-                <h3>Food Delivery</h3>
-              </div>
-             </a>
-            </div>
-             <div className="col-lg-3 col-md-6 col-sm-12">
-             <a href="#!">
-               <div className="catogary">
-                <figure><img src={img} alt="" /></figure>
-                <h3>Food Delivery</h3>
-              </div>
-             </a>
-            </div>
+            {
+              foodcat.map((data) => {
+               return(
+                  <div className="col-lg-3 col-md-6 col-sm-12">
+                  <Link to={`/food/${encodeURIComponent(data.CategoryName)}`} className="catogarylink">
+                    <div className="catogary">
+                      <figure><img src={img} alt="" /></figure>
+                      <h3>{data.CategoryName}</h3>
+                    </div>
+                  </Link>
+                </div>
+               )
+              
+               
+              })
+            }
+           
+            
           </div>
         </div>
 

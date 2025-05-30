@@ -364,7 +364,7 @@ body {
   background-color: #f2efe6;
   border-radius: 18px;
   position: relative;
-  box-shadow: 0px 0px 0 rgba(0, 0, 0, .15);
+  box-shadow: 0px 3px 11px rgba(0, 0, 0, .15);
   transition: all 0.3s linear;
 }
 
@@ -391,6 +391,7 @@ body {
 
 .catogary1 a:hover .catogary {
   scale: 1.15;
+  background-color: #fff;
 
 }
 
@@ -1149,6 +1150,45 @@ content: '';
 }
 .sidebox.ser form input{
   border-radius: 12px;
+}
+.sidebox ul{
+ 
+}
+.sidebox ul li {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 10px;
+}
+.sidebox ul li a{
+  color: #000;
+  text-decoration: none;
+  position: relative;
+      transition: all .3s linear;
+}
+.sidebox ul li a::after{
+    content: '>';
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 25px;
+    width: 17px;
+    height: 17px;
+    border-radius: 12px;
+    color: #f7b614;
+    z-index: -1;
+    transition: all .3s linear;
+    transform: translate(-18px, -7px);
+}
+.sidebox ul li a:hover{
+  color: #f7b614;
+}
+.catogaryogary{
+  padding: 80px 30px;
+}
+.sticy{
+  position: sticky;
+  top: 20px;
+  z-index: 11;
 }
 @media (max-width: 991px) {
   .slider-content {
