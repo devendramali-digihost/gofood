@@ -9,7 +9,7 @@ const Cart = () => {
 
   if (data.length === 0) {
     return (
-      <div className="m-5 w-100 text-center fs-3 text-white">
+      <div className="m-5 w-100 text-center fs-3 text-black">
         The Cart is Empty
       </div>
     );
@@ -60,8 +60,8 @@ const Cart = () => {
   return (
     <>
       <div className="container m-auto mt-5 table-responsive table-responsive-sm table-responsive-md">
-        <table className="table table-hover text-white">
-          <thead className="text-success fs-4">
+        <table className="table carttable table-hover text-white">
+          <thead className="text-light fs-4">
             <tr>
               <th scope="col">#</th>
               <th scope="col">Name</th>
@@ -85,7 +85,7 @@ const Cart = () => {
                     className="btn p-1 text-white"
                     onClick={() => dispatch({ type: "REMOVE", index })}
                   >
-                    🗑️
+                    ❌
                   </button>
                 </td>
               </tr>
@@ -94,11 +94,11 @@ const Cart = () => {
         </table>
 
         <div>
-          <h1 className="fs-2 text-white">Total Price: ₹{totalPrice}/-</h1>
+          <h1 className="fs-3 mt-3 text-black">Total : ₹{totalPrice}/-</h1>
         </div>
 
         <div>
-          <button className="btn bg-success text-white" onClick={handleCheckOut}>
+          <button className="btn1 addtocart mt-3 bg-success text-white" onClick={handleCheckOut}>
             Check Out
           </button>
         </div>

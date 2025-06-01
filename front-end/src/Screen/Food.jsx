@@ -8,6 +8,7 @@ const Food = () => {
     const { catogaries } = useParams();
 
     const [catogary, setcatogary] = useState([]);
+    const [catogary1, setcatogary1] = useState([]);
     const [fooditem, setfooditem] = useState([]);
     const [search, setsearch] = useState(catogaries);
     const decodedCategory = decodeURIComponent(catogaries || "");
@@ -19,8 +20,8 @@ const Food = () => {
             const res = await axios.get("http://localhost:5000/api/foodmenu");
             if (res.data.success) {
                 setfooditem(res.data.data);
-                const categories = [...new Set(res.data.data.map(item => item.CategoryName))].map(cat => ({ CategoryName: cat, _id: cat }));
-                setcatogary(categories);
+                // const categories = [...new Set(res.data.data.map(item => item.CategoryName))].map(cat => ({ CategoryName: cat, _id: cat }));
+                // setcatogary(categories);
             }
 
         }
@@ -28,8 +29,19 @@ const Food = () => {
             console.log("error in food page loadData", error);
         }
     }
+        const fetchCat = async () => {
+          try {
+            const res = await axios.get("http://localhost:5000/api/catagory");
+            if (res.data.success) {
+              setcatogary(res.data.data);
+            }
+          } catch (error) {
+            console.log("error fetch Catogary", error);
+          }
+        };
     useEffect(() => {
         loadData();
+        fetchCat();
        setsearch(decodedCategory);
 
     }, [catogaries]);
@@ -70,7 +82,7 @@ const Food = () => {
                                     <div className="fs-4 mt-0 mb-3">Food Categories</div>
                                     <ul>
                                         {
-                                            catogary.map((item, index) => {
+                                            catogary.filter(item => item.status === true).map((item, index) => {
                                                 return (
                                                     <li key={index}><Link to={`/food/${encodeURIComponent(item.CategoryName)}`}>{item.CategoryName}</Link></li>
                                                 )
@@ -92,7 +104,7 @@ const Food = () => {
                                             );
 
                                             return filteredItems.length > 0 ? (
-                                                filteredItems.map((data) => (
+                                                filteredItems.filter(data=> data.status === true).map((data) => (
                                                     <div key={data._id} className="col-12 col-md-6 col-lg-4 mb-3">
                                                         <Card fooditem={data} options={data.options[0]} />
                                                     </div>

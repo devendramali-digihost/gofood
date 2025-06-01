@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../component/Sidebar';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const Updatefood = () => {
   const { id } = useParams();
@@ -47,23 +48,7 @@ const Updatefood = () => {
     getFoodData();
   }, [id]);
 
-  // Get category list
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/foodmenu");
-        const json = await res.json();
-        if (json.success) {
-          const uniqueCategories = [...new Set(json.data.map(item => item.CategoryName))];
-          setCatogary(uniqueCategories.map(c => ({ CategoryName: c })));
-        }
-      } catch (err) {
-        console.log("Error fetching categories", err);
-      }
-    };
 
-    getCategories();
-  }, []);
 
   const onchange = (e) => {
     setaddfood({ ...addfood, [e.target.name]: e.target.value });
@@ -113,6 +98,20 @@ const Updatefood = () => {
       console.log("Error in updating food", error);
     }
   };
+    const fetchcat = async()=>{
+    try {
+      const res = await axios.get("http://localhost:5000/api/catagory")
+      if(res.data.success){
+        setCatogary(res.data.data)
+      }
+      
+    } catch (error) {
+       console.log("error fetch Catogary", error);
+    }
+  }
+   useEffect(() => {
+       fetchcat();
+    }, []);
 
   return (
     <div className="container-fluid">
@@ -138,7 +137,7 @@ const Updatefood = () => {
                   <select className="form-select" name="CategoryName" value={addfood.CategoryName} onChange={onchange} required>
                     <option disabled value="">Choose...</option>
                     {
-                      catogary.map((data, index) => (
+                      catogary.filter(data => data.status === true).map((data, index) => (
                         <option key={index} value={data.CategoryName}>{data.CategoryName}</option>
                       ))
                     }

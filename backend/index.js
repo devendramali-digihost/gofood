@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS"
+    "GET, POST, PUT, DELETE, OPTIONS,PATCH"
   );
 
   // Handle preflight OPTIONS request
@@ -36,6 +36,7 @@ app.use("/api", require("./Routes/DisplayData"));
 app.use("/api", require("./Routes/OrderData"));
 app.use("/api", require("./Routes/FoodMenu"));
 app.use("/api", require("./Routes/FoodCatogary"));
+app.use('/uploads', express.static('uploads'));
 app.listen(port,()=>{
     console.log(`app running on port ${port}`);
     

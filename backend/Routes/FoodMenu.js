@@ -100,6 +100,20 @@ router.get("/getfood/:id", async (req, res) => {
   }
 });
 
+router.patch("/toggle-food/:id", async(req, res)=>{
+  try {
+    const food = await FoodMenu.findById(req.params.id)
+    if (!food) return res.status(404).json({success: false, message:"food not found"})
+
+    food.status= !food.status;
+    await food.save()
+    
+    res.json({success:true, message:"Food status updated", data:food})
+  } catch (error) {
+    res.status(500).json({success:false, message:"server error"+error.message})
+  }
+})
+
 
 
 

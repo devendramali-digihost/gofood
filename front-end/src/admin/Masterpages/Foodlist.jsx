@@ -54,6 +54,19 @@ const Foodlist = () => {
 
   }
 
+  const handleToggle = async(id)=>{
+    try {
+      const res= await fetch(`http://localhost:5000/api/toggle-food/${id}`,{
+        method:"PATCH"
+      });
+      const json = await res.json();
+      if(json.success) fetchfoodlist();
+    } catch (error) {
+      console.log("Toggle error",err);
+      
+    }
+  }
+
   
   return (
     <>
@@ -116,6 +129,16 @@ const Foodlist = () => {
                             </ul>
                           </td>
                           <td>
+                             <div className="form-check d-inline mx-0 p-1 form-switch">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  role="switch"
+                                  id={`switch-${data._id}`}
+                                  checked={data.status}
+                                  onChange={() => handleToggle(data._id)}
+                                />
+                              </div>
                             <Link type="button" to={`/updatefood/${data._id}`} className='bg-success btn me-2 p-1'>📝</Link>
                             <button type="button" onClick={()=> handeldeletefood(data._id)} className='bg-danger btn p-1'>❌</button>
                           </td>

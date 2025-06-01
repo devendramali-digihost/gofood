@@ -112,7 +112,7 @@ const Addfood = () => {
                         <select class="form-select" name="CategoryName"  value={addfood.CategoryName} onChange={onchange} required>
                             <option selected disabled value="">Choose...</option>
                             {
-                              catogary.map((data,index)=>{
+                              catogary.filter(data => data.status === true).map((data,index)=>{
                                return(
                                   <option value={data.CategoryName}>{data.CategoryName}</option>
                                )

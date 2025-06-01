@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const FoodCatagory = require("./../models/FoodCatagarySchema")
 const mongoose = require('mongoose');
+const multer = require("multer");
+const path = require("path");
 
 router.get("/catagory", async(req,res)=>{
     try {
@@ -16,16 +18,23 @@ router.get("/catagory", async(req,res)=>{
         res.status(500).json({success:false, message:"Server Error"+ error.message})
     }
 })
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) =>
+    cb(null, Date.now() + path.extname(file.originalname)),
+});
 
-router.post("/addCategory", async (req, res) => {
+
+const upload = multer({ storage });
+router.post("/addCategory",upload.single("image"), async (req, res) => {
   try {
-    const { CategoryName } = req.body;
+     const { CategoryName } = req.body; 
+    const imagePath = req.file ? req.file.path : null;
 
     if (!CategoryName || CategoryName.trim() === "") {
       return res.status(400).json({ success: false, message: "CategoryName is required" });
     }
-
-    const newCategory = await FoodCatagory.create({ CategoryName });
+  const newCategory = await FoodCatagory.create({ CategoryName, image: imagePath });
     res.status(201).json({ success: true, data: newCategory });
   } catch (err) {
     console.error("Error adding category:", err.message);
@@ -61,33 +70,47 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 
-router.put('/updatecatagory/:id', async(req,res)=>{
+router.put("/updatecatagory/:id", upload.single("image"), async (req, res) => {
   try {
-    const {id} = req.params;
-    const {CategoryName} = req.body;
+    const { id } = req.params;
+    const { CategoryName } = req.body;
+    const imagePath = req.file ? req.file.path : null;
 
     if (!CategoryName) {
       return res.status(400).json({ success: false, message: "CategoryName is required" });
     }
 
+    const updateData = { CategoryName };
+    if (imagePath) updateData.image = imagePath;
 
-    const updatecatogary = await FoodCatagory.findByIdAndUpdate(
-      id,
-      {CategoryName},
-      {new:true}
-    )
-    
+    const updated = await FoodCatagory.findByIdAndUpdate(id, updateData, { new: true });
 
-    if (!updatecatogary) {
+    if (!updated) {
       return res.status(404).json({ success: false, message: "Category not found" });
     }
 
-    res.json({success:true, data: updatecatogary})
-
+    res.json({ success: true, data: updated });
   } catch (error) {
-    console.error("Update error:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error("Update error:", error.message);
+    res.status(500).json({ success: false, message: "Server Error: " + error.message });
   }
-})
+});
+
+router.patch("/toggle-category/:id", async (req, res) => {
+  try {
+    const cat = await FoodCatagory.findById(req.params.id);
+    if (!cat) return res.status(404).json({ success: false, message: "Category not found" });
+
+    cat.status = !cat.status;
+    await cat.save();
+
+    res.json({ success: true, message: "Category status updated", data: cat });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server Error: " + err.message });
+  }
+});
+
+
+
 
 module.exports = router;

@@ -19,6 +19,7 @@ const Home = () => {
   const [fooditem, setFoodItem] = useState([]);
   const [search, setSearch] = useState("");
   // var rellax = new Rellax('.rellax');
+    const [Catogary, setCatogary] = useState([]);
 
 
   const loadData = async () => {
@@ -26,13 +27,31 @@ const Home = () => {
       const res = await axios.get("http://localhost:5000/api/foodmenu");
       if (res.data.success) {
         setFoodItem(res.data.data);
-        const categories = [...new Set(res.data.data.map(item => item.CategoryName))].map(cat => ({ CategoryName: cat, _id: cat }));
+        const categories = [...new Set(res.data.data.map(item => item.CategoryName))].map(cat => ({ CategoryName: cat, _id: cat, status: cat }));
         setFoodCat(categories);
       }
     } catch (error) {
       console.log("Error in fetching foodlist:", error);
     }
   };
+
+
+    const fetchCat = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/catagory");
+        if (res.data.success) {
+          setCatogary(res.data.data);
+        }
+      } catch (error) {
+        console.log("error fetch Catogary", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchCat();
+    }, []);
+
+
   useEffect(() => {
     loadData();
   }, []);
@@ -99,22 +118,23 @@ useEffect(() => {
           </button> */}
         </div>
       </div>
-      <div className="catogary1">
+      <div className="catogary1" id="order">
         <div className="container">
           <div className="row">
             {
-              foodcat.map((data) => {
+              Catogary.filter(data => data.status === true).map((data) => {
+                console.log(data.CategoryName);
+                
                return(
                   <div className="col-lg-3 col-md-6 col-sm-12">
                   <Link to={`/food/${encodeURIComponent(data.CategoryName)}`} className="catogarylink">
                     <div className="catogary">
-                      <figure><img src={img} alt="" /></figure>
+                      <figure><img src={`http://localhost:5000/${data.image}`} alt="" /></figure>
                       <h3>{data.CategoryName}</h3>
                     </div>
                   </Link>
                 </div>
                )
-              
                
               })
             }
@@ -138,7 +158,8 @@ useEffect(() => {
             const filteredItems = fooditem.filter(
               (item) =>
                 item.CategoryName === data.CategoryName &&
-                item.name.toLowerCase().includes(search.toLowerCase())
+                item.name.toLowerCase().includes(search.toLowerCase()) &&
+                item.status === true
             );
 
             if (filteredItems.length === 0) return null;
@@ -208,7 +229,7 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              <a href="#!" className="btn1">Read More</a>
+              <a href="/about" className="btn1">Read More</a>
             </div>
           </div>
         </div>
@@ -222,7 +243,7 @@ useEffect(() => {
                     <span>the Hottest <br />
                     Pizza</span></h3>
                     <p>Curabitur imperdiet varius lacus, id placerat purus vulputate non. Fusce in felis vel arcu maximus placerat eu ut arcu. Ut nunc ex, gravida vel porttitor et, pretium ac sapien.</p>
-                      <a href="#!" className="btn1 btn2 mt-5">Get Food</a>
+                      <a href="#order" className="btn1 btn2 mt-5">Get Food</a>
                 </div>
               </div>
             </div>

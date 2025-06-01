@@ -13,6 +13,7 @@ const Navbar = () => {
     localStorage.removeItem("authToken");
     navigate("/login")
   } 
+  const isActive = (path) => location.pathname === path;
   return (
     <div><nav className="navbar header navbar-expand-lg navbar-dark ">
   <div className="container-fluid">
@@ -25,20 +26,20 @@ const Navbar = () => {
     <div className="collapse navbar-collapse " id="navbarNav">
       <ul className="navbar-nav m-auto mb-2">
         <li className="nav-item">
-          <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+          <Link className={`nav-link ${isActive('/') ? 'active' : ''}`}  aria-current="page" to="/">Home</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" aria-current="page" to="/">About</Link>
+          <Link className={`nav-link ${isActive('/about') ? 'active' : ''}`}  aria-current="page" to="/about">About</Link>
         </li>
         {
           (localStorage.getItem("authToken"))?
             <li className="nav-item">
-          <Link className="nav-link " aria-current="page" to="/myorders">My Orders</Link>
+          <Link className={`nav-link ${isActive('/myorders') ? 'active' : ''}`}  aria-current="page" to="/myorders">My Orders</Link>
         </li>:
         ""
         }
          <li className="nav-item">
-          <Link className="nav-link" aria-current="page" to="/">Contact</Link>
+          <Link className={`nav-link ${isActive('/contact') ? 'active' : ''}`} aria-current="page" to="/contact">Contact</Link>
         </li>
       </ul>
          {

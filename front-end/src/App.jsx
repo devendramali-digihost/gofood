@@ -16,6 +16,8 @@ import Addfood from './admin/Masterpages/Addfood'
 import Updatefood from './admin/Masterpages/Updatefood'
 import Error from './Screen/Error'
 import Food from './Screen/Food'
+import About from './Screen/About'
+import Contact from './Screen/Contact'
 
 function App() {
 
@@ -38,6 +40,8 @@ function App() {
                 <Route path='/updatefood/:id' element={<Updatefood/>}/>
                 <Route path='/*' element={<Error/>}/>
                 <Route path='/food/:catogaries' element={<Food/>}/>
+                <Route path='/about' element={<About/>}/>
+                <Route path='/contact' element={<Contact/>}/>
               </Routes>
       
                
