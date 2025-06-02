@@ -15,7 +15,9 @@
 }
 
 body {
-  font-family: "NHaasGroteskDSPro-65Md" !important;
+  font-family: "Heebo", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
   /* background: #242424; */
 }
 
@@ -34,7 +36,18 @@ body {
   color: #ebb617;
   --bs-table-accent-bg:rgb(0 0 0 / 0%);
 }
-
+.navbar {
+    position: sticky;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    top: 0;
+    z-index: 111;
+    width: 100%;
+}
 .formpage {
   padding: 100px 0;
 }
@@ -197,7 +210,7 @@ body {
 
 .header .navbar-nav .nav-link {
   font-weight: 800;
-  font-size: 14px;
+  font-size: 17px;
   color: #fff;
 
 }
@@ -271,8 +284,7 @@ body {
   margin-top: 20px;
   font-size: 18px;
   line-height: 1.7em;
-  font-family: 'Catamaran', sans-serif;
-  font-family: var(--font-main), sans-serif;
+
   font-weight: 400;
 
 
@@ -282,6 +294,7 @@ body {
   padding: 22px 30px 22px;
   font-size: 16px;
   min-width: 260px;
+  font-weight: 600;
   background-color: #f7b614;
   color: #282932;
   border-color: #f7b614;
@@ -336,7 +349,7 @@ body {
 }
 
 .const {
-  padding-left: 50px;
+  /* padding-left: 50px; */
   display: flex;
   flex-direction: column;
   /* align-items: center; */
@@ -503,8 +516,7 @@ select.bg-success {
 .cta .ctacontent p {
   font-size: 16px;
   line-height: 1.7em;
-  font-family: 'Catamaran', sans-serif;
-  font-family: var(--font-main), sans-serif;
+
   font-weight: 400;
   margin-top: 20px;
   color: #b8b8bb;
@@ -576,8 +588,7 @@ select.bg-success {
   margin-top: 0;
   font-size: 18px;
   line-height: 1.7em;
-  font-family: 'Catamaran', sans-serif;
-  font-family: sans-serif;
+
   font-weight: 400;
   color: #282932;
 }
@@ -597,7 +608,7 @@ select.bg-success {
 
 .pizzasec {
   height: 100%;
-  margin-left: 30px;
+  /* margin-left: 30px; */
   padding: 250px 0;
   overflow: hidden;
 }
@@ -842,7 +853,7 @@ footer {
 
 .contactcta .cont {
   padding: 90px 0;
-  margin-left: 35px;
+  /* margin-left: 35px; */
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -863,8 +874,7 @@ footer {
 .contactcta .cont p {
   font-size: 16px;
   line-height: 1.7em;
-  font-family: 'Catamaran', sans-serif;
-  font-family: var(--font-main), sans-serif;
+
   font-weight: 400;
   margin-top: 20px;
   color: rgba(0, 0, 0, 0.623);
@@ -1165,8 +1175,7 @@ footer {
 .contenerr p {
   font-size: 16px;
   line-height: 1.7em;
-  font-family: 'Catamaran', sans-serif;
-  font-family: var(--font-main), sans-serif;
+
   font-weight: 400;
   color: #282932ab;
 }
@@ -1226,12 +1235,12 @@ footer {
 }
 
 .catogaryogary {
-  padding: 80px 30px;
+  padding: 80px 0px;
 }
 
 .sticy {
   position: sticky;
-  top: 20px;
+  top: 95px;
   z-index: 11;
 }
 
@@ -1353,8 +1362,7 @@ footer {
 .aboutcontaant .abcont p {
   font-size: 25px;
   line-height: 1.7em;
-  font-family: 'Catamaran', sans-serif;
-  font-family: var(--font-main), sans-serif;
+
   font-weight: 200 !important;
   color: #282932ab;
 }
@@ -1438,8 +1446,7 @@ footer {
 .waitingappsection p {
   font-size: 22px;
   line-height: 1.7em;
-  font-family: 'Catamaran', sans-serif;
-  font-family: var(--font-main), sans-serif;
+
   font-weight: 200 !important;
   color: #282932ab;
   max-width: 500px;
@@ -1532,12 +1539,15 @@ footer {
 }
 .contactpage .conta h4{}
 .contactpage .conta p{
-color: #282932 !important;
+color: #727272 !important;
 font-size: 16px;
 margin-bottom: 5px;
 }
+.contactpage .conta p a{
+  color: #727272 !important;
+}
 .contactpage .conta p a:hover{
-  color: #ebb617;
+  color: #ebb617 !important;
 }
 .contactpage .conta.line{
   position: relative;
@@ -1603,6 +1613,7 @@ margin-bottom: 5px;
   }
   .sliderimg {
     height: auto;
+    margin-top: 50px;
   }
 
   .catogary1 {
@@ -1620,6 +1631,7 @@ margin-bottom: 5px;
 
   .cta .ctacontent {
     text-align: center;
+    padding: 100px 15px;
   }
 
   .cta .ctacontent a {
@@ -1634,6 +1646,9 @@ margin-bottom: 5px;
   .relaxcont {
     display: none;
   }
+  .supp {
+    padding: 20px;
+}
 
   .pizzasec::after {
     right: -68px;
@@ -1774,7 +1789,7 @@ margin-bottom: 5px;
 
   .pizzasec {
     margin-left: 0;
-    padding: 80px 30px;
+    padding: 80px 15px;
   }
 
   .carousel-control-next {

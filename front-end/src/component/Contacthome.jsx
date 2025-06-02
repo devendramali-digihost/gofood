@@ -4,7 +4,8 @@ const Contacthome = () => {
   return (
     <>
       <div className="contactcta">
-        <div className="row g-0">
+        <div className="container">
+                <div className="row g-0">
             <div className="col-lg-6">
                 <div className="cont">
                     <h2>Get More With <span>Our Application</span></h2>
@@ -26,6 +27,7 @@ const Contacthome = () => {
                 </div>
 
             </div>
+        </div>
         </div>
       </div>
     </>

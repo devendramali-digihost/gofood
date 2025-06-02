@@ -14,7 +14,7 @@ const Myorder = () => {
       }
 
       try {
-        const response = await fetch("http://localhost:5000/api/myorderdata", {
+        const response = await fetch(`${import.meta.env.VITE_BACK_DOMAIN}/api/myorderdata`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

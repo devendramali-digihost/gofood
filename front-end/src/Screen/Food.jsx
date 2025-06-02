@@ -17,7 +17,7 @@ const Food = () => {
 
     const loadData = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/foodmenu");
+            const res = await axios.get(`${import.meta.env.VITE_BACK_DOMAIN}/api/foodmenu`);
             if (res.data.success) {
                 setfooditem(res.data.data);
                 // const categories = [...new Set(res.data.data.map(item => item.CategoryName))].map(cat => ({ CategoryName: cat, _id: cat }));
@@ -31,7 +31,7 @@ const Food = () => {
     }
         const fetchCat = async () => {
           try {
-            const res = await axios.get("http://localhost:5000/api/catagory");
+            const res = await axios.get(`${import.meta.env.VITE_BACK_DOMAIN}/api/catagory`);
             if (res.data.success) {
               setcatogary(res.data.data);
             }
@@ -62,7 +62,7 @@ const Food = () => {
                     </ul>
                 </div>
                 <div className="catogaryogary">
-                    <div className="container-fluid">
+                    <div className="container">
                         <div className="row">
                             <div className="col-lg-4 mt-3">
                                 <div className='sticy'>

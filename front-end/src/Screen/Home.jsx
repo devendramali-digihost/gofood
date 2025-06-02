@@ -24,7 +24,7 @@ const Home = () => {
 
   const loadData = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/foodmenu");
+      const res = await axios.get(`${import.meta.env.VITE_BACK_DOMAIN}/api/foodmenu`);
       if (res.data.success) {
         setFoodItem(res.data.data);
         const categories = [...new Set(res.data.data.map(item => item.CategoryName))].map(cat => ({ CategoryName: cat, _id: cat, status: cat }));
@@ -38,7 +38,7 @@ const Home = () => {
 
     const fetchCat = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/catagory");
+        const res = await axios.get(`${import.meta.env.VITE_BACK_DOMAIN}/api/catagory`);
         if (res.data.success) {
           setCatogary(res.data.data);
         }
@@ -88,7 +88,8 @@ useEffect(() => {
             </div> */}
             <div className="carousel-item active">
               <div className="slider-content">
-                <div className="row">
+                <div className="container">
+                  <div className="row">
                   <div className="col-lg-6">
                     <div className="const">
                       <h1>Express  <br /><span>Home Delivery</span></h1>
@@ -102,6 +103,7 @@ useEffect(() => {
 
                     </figure>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -129,7 +131,7 @@ useEffect(() => {
                   <div className="col-lg-3 col-md-6 col-sm-12">
                   <Link to={`/food/${encodeURIComponent(data.CategoryName)}`} className="catogarylink">
                     <div className="catogary">
-                      <figure><img src={`http://localhost:5000/${data.image}`} alt="" /></figure>
+                      <figure><img src={`${import.meta.env.VITE_BACK_DOMAIN}/${data.image}`} alt="" /></figure>
                       <h3>{data.CategoryName}</h3>
                     </div>
                   </Link>
@@ -196,7 +198,7 @@ useEffect(() => {
               <h3>Sit at Home <br /> <span> We Will Take Care</span></h3>
               <p>Proin ornare posuere quam ut euismod. Nam eu nunc vitae orci ultrices imperdiet ut id ligula. Sed interdum eros eget sagittis rutrum. Vestibulum in elementum mauris. In iaculis odio urna.</p>
               <div className="row">
-                <div className="col-lg-3 col-md-6 col-sm-12">
+                <div className="col-lg-3 col-md-6 col-sm-6 col-6">
                   <div className="supp">
                     <figure>
                       <img src={img1} alt="" />
@@ -204,7 +206,7 @@ useEffect(() => {
                     <h4>Fast Delivery in 1 Hour</h4>
                   </div>
                 </div>
-                <div className="col-lg-3 col-md-6 col-sm-12">
+                <div className="col-lg-3 col-md-6 col-sm-6 col-6">
                   <div className="supp">
                     <figure>
                       <img src={img2} alt="" />
@@ -212,7 +214,7 @@ useEffect(() => {
                     <h4>Wide Coverage Map</h4>
                   </div>
                 </div>
-                <div className="col-lg-3 col-md-6 col-sm-12">
+                <div className="col-lg-3 col-md-6 col-sm-6 col-6">
                   <div className="supp">
                     <figure>
                       <img src={img3} alt="" />
@@ -220,7 +222,7 @@ useEffect(() => {
                     <h4>More Than 150 Couriers</h4>
                   </div>
                 </div>
-                <div className="col-lg-3 col-md-6 col-sm-12">
+                <div className="col-lg-3 col-md-6 col-sm-6 col-6">
                   <div className="supp">
                     <figure>
                       <img src={img4} alt="" />
@@ -236,7 +238,8 @@ useEffect(() => {
       </div>
       <div className="pizzabanner">
           <div className="pizzasec">
-            <div className="row">
+            <div className="container">
+              <div className="row">
               <div className="col-lg-5">
                 <div className="content">
                   <h3>Always <br />
@@ -246,6 +249,7 @@ useEffect(() => {
                       <a href="#order" className="btn1 btn2 mt-5">Get Food</a>
                 </div>
               </div>
+            </div>
             </div>
            <div className="relaxcont">
              
