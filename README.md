@@ -1,0 +1,1 @@
+Built a full-stack food delivery platform featuring real-time menu browsing, category-based filtering, cart management, and secure checkout. Designed an engaging UI with promotional banners, mobile app integration, and responsive layouts. Deployed the application on Vercel for fast and scalable access.
